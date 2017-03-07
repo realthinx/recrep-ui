@@ -9,7 +9,7 @@ import { ButtonsModule } from 'ng2-bootstrap/buttons';
 import { ModalModule } from 'ng2-bootstrap/modal';
 
 import { AppComponent } from './app.component';
-import {AppService} from "./app.service";
+import {AppService} from './app.service';
 
 @NgModule({
   declarations: [

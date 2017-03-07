@@ -1,13 +1,13 @@
 import { RECORD_JOB_ACTIONS } from './record-job.actions';
 
 export interface IRecordJob {
-  name: string,
-  description?: string,
-  status?: string,
-  sources: Array<string>,
-  timestampStart: number,
-  timestampEnd: number,
-  maxSizeMb?: number
+  name: string;
+  description?: string;
+  status?: string;
+  sources: Array<string>;
+  timestampStart: number;
+  timestampEnd: number;
+  maxSizeMb?: number;
 }
 
 const INITIAL_STATE: IRecordJob[] = [];
