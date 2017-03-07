@@ -18,7 +18,7 @@
     <div class="col-xs-12">
       <div class="btn-toolbar" role="toolbar">
         <div class="btn-group">
-          <label class="btn btn-danger" [(ngModel)]="radioModel" btnRadio="Record" (click)="recordJobModal.show()"><i class="glyphicon glyphicon-record"></i></label>
+          <label class="btn btn-danger"  btnRadio="Record"><i class="glyphicon glyphicon-record"></i></label>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="hidden-xs hidden-sm col-md-4">
       <ul class="list-group">
         <li class="list-group-item">Cras justo odio
-          <a (click)="replayJobModal.show()"><i class="glyphicon glyphicon-repeat pull-right"></i></a>
+          <a><i class="glyphicon glyphicon-repeat pull-right"></i></a>
         </li>
         <li class="list-group-item">Dapibus ac facilisis in</li>
         <li class="list-group-item">Morbi leo risus</li>
@@ -56,9 +56,9 @@
                   <progressbar class="progress-striped" value="22">22%</progressbar>
                   <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group">
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
+                      <label class="btn btn-primary" btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
+                      <label class="btn btn-primary" btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
+                      <label class="btn btn-primary" btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
                     </div>
                   </div>
                 </div>
@@ -80,9 +80,9 @@
                   <progressbar class="progress-striped" value="0">0%</progressbar>
                   <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group">
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
+                      <label class="btn btn-primary"  btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
+                      <label class="btn btn-primary"  btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
+                      <label class="btn btn-primary"  btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
                     </div>
                   </div>
                 </div>
@@ -104,9 +104,9 @@
                   <progressbar class="progress-striped" value="59">59%</progressbar>
                   <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group">
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
-                      <label class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
+                      <label class="btn btn-primary"  btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
+                      <label class="btn btn-primary"  btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
+                      <label class="btn btn-primary"  btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
                     </div>
                   </div>
                 </div>
@@ -128,7 +128,7 @@
                   <progressbar class="progress-striped" type="danger" value="59">59%</progressbar>
                   <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group">
-                      <label class="btn btn-danger" [(ngModel)]="radioModel" btnRadio="Stop"><i class="glyphicon glyphicon-stop"></i></label>
+                      <label class="btn btn-danger"  btnRadio="Stop"><i class="glyphicon glyphicon-stop"></i></label>
                     </div>
                   </div>
                 </div>
@@ -143,7 +143,7 @@
   <!-- Modals -->
 
   <!-- Record Job -->
-  <div bsModal #recordJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <!--div bsModal #recordJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -195,10 +195,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div-->
 
   <!-- Replay Job -->
-  <div bsModal #replayJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <!--div bsModal #replayJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -212,6 +212,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div-->
 
 </div>

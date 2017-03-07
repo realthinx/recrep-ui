@@ -2,14 +2,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+
+import { StoreModule } from '@ngrx/store';
+
+import { AlertModule } from 'ng2-bootstrap';
 import { TabsModule } from 'ng2-bootstrap/tabs';
 import { ProgressbarModule } from 'ng2-bootstrap/progressbar';
 import { ButtonsModule } from 'ng2-bootstrap/buttons';
 import { ModalModule } from 'ng2-bootstrap/modal';
 
-import { AppComponent } from './app.component';
-import {AppService} from './app.service';
+import { AppComponent } from './containers/app';
+import {AppService} from './services/app.service';
+
+import { reducer } from './reducers';
 
 @NgModule({
   declarations: [
@@ -23,12 +28,15 @@ import {AppService} from './app.service';
     TabsModule.forRoot(),
     ProgressbarModule.forRoot(),
     ButtonsModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    StoreModule.provideStore(reducer),
   ],
   providers: [
     AppService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule {
 

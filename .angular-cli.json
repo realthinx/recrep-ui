@@ -1,6 +1,6 @@
 {
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "version": "1.0.0",
     "name": "recrep-ui"
   },
   "apps": [
@@ -18,7 +18,6 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
-      "mobile": false,
       "styles": [
         "styles.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -33,8 +32,6 @@
       }
     }
   ],
-  "addons": [],
-  "packages": [],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"

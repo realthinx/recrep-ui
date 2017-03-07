@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  eventBusUrl: 'http://localhost:8080/eventbus',
+  eventBusReconnectionInterval: 1000
 };
