@@ -16,22 +16,25 @@ export function reducer(state = initialState, action: network.Actions): State {
             return {
                 connected: false,
                 connecting: true
-            }
+            };
         }
         case network.ActionTypes.CONNECTED: {
             return {
                 connected: true,
                 connecting: false
-            }
+            };
         }
         case network.ActionTypes.DISCONNECTED: {
             return {
                 connected: false,
                 connecting: false
-            }
+            };
         }
         default: {
             return state;
         }
     }
 }
+
+export const getConnected = (state: State) => state.connected;
+export const getConnecting = (state: State) => state.connecting;

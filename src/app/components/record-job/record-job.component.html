@@ -1,0 +1,175 @@
+<div class="modal fade" bsModal #recordJobModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <h4 class="modal-title pull-left">Create new Record Job</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <form [formGroup]="recordJobForm">
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" formControlName="name" required>
+                  <div [hidden]="recordJobForm.controls.name.valid || recordJobForm.controls.name.pristine" class="alert alert-danger">
+                    Name is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input type="text" class="form-control" id="description" formControlName="description">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="duration">Duration (sec)</label>
+                  <input id="duration" type="number" class="form-control" formControlName="duration" required>
+                </div>
+              </div>
+
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="scheduled"> </label>
+                  <div id="scheduled" class="checkbox">
+                    <label>
+                      <input type="checkbox" formControlName="scheduled"> Scheduled
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-2" [hidden]="recordJobForm.controls.scheduled.value !== true">
+                <div class="form-group">
+                  <label for="dateStart">Start Date</label>
+                  <input id="dateStart" type="text" class="form-control" formControlName="dateStart" placeholder="DD.MM.YYYY">
+                </div>
+              </div>
+
+              <div class="col-xs-2" [hidden]="recordJobForm.controls.scheduled.value !== true">
+                <div class="form-group">
+                  <label for="timestampStart">Start Time</label>
+                  <input id="timestampStart" type="text" class="form-control" formControlName="timeStart" placeholder="HH:MM">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="maxFileSize">Max Size (Mb)</label>
+                  <input id="maxFileSize" type="number" class="form-control" formControlName="maxFileSize" required>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row top-buffer">
+              <div class="col-xs-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Record Endpoint Mappings</h3>
+                </div>
+                <div class="panel-body">
+                  <!-- Labels -->
+                  <div class="row">
+                    <div class="col-xs-2">
+                      <label for="stage">Stage</label>
+                    </div>
+                    <div class="col-xs-4" [hidden]="!recordJobForm.controls.stage.value">
+                      <label for="handler">Handler</label>
+                    </div>
+                    <div class="col-xs-4" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value">
+                      <label for="sourceIdentifier">Source Identifier</label>
+                    </div>
+                    <div class="col-xs-2" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
+                      <label for="action"></label>
+                    </div>
+                  </div>
+
+                  <!-- Fields -->
+                  <div class="row">
+                    <div class="col-xs-2">
+                      <select id="stage" class="form-control" formControlName="stage">
+                        <option></option>
+                        <option *ngFor="let stage of (getStages() | async)">{{stage}}</option>
+                      </select>
+                    </div>
+                    <div class="col-xs-4" [hidden]="!recordJobForm.controls.stage.value">
+                      <select id="handler" class="form-control" formControlName="handlerLabel">
+                        <option></option>
+                        <option *ngFor="let handler of (getHandlerLabel(recordJobForm.controls.stage.value) | async)">{{handler}}</option>
+                      </select>
+                    </div>
+                    <div class="col-xs-4" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value">
+                      <select id="sourceIdentifier" class="form-control" formControlName="sourceIdentifierLabel">
+                        <option></option>
+                        <option *ngFor="let sourceIdentifier of (getSourceIdentifierLabel(recordJobForm.controls.stage.value, recordJobForm.controls.handlerLabel.value) | async)">{{sourceIdentifier}}</option>
+                      </select>
+                    </div>
+                    <div class="col-xs-2" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
+                      <button id="action" type="button" class="btn btn-default pull-right" (click)="addEndpointMapping()">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- List -->
+                  <div class="row top-buffer">
+                    <div class="col-xs-12">
+                      <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let mapping of recordJobState.endpointMappings">
+                          <div class="row">
+                            <div class="col-xs-1">
+                              <span class="label label-default">{{ mapping.stage }}</span>
+                            </div>
+                            <div class="col-xs-9">
+                              {{ mapping.handlerLabel }} - {{ mapping.sourceIdentifierLabel }}
+                            </div>
+                            <div class="col-xs-2">
+                              <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true" (click)="removeEndpointMapping(mapping)"></span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <button type="button" class="btn btn-danger" (click)="hide()">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="publish()" [disabled]="!recordJobForm.valid">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

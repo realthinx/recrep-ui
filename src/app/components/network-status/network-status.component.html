@@ -1,0 +1,13 @@
+<span style="font-size:1.2em;"
+  class="text-success glyphicon glyphicon-transfer"
+  *ngIf="networkConnected$ | async"
+  aria-hidden="true"
+  tooltip="Verbunden mit recrep engine."
+  placement="bottom"></span>
+
+<span style="font-size:1.2em;"
+  class="text-warning glyphicon glyphicon-alert animated infinite tada"
+  *ngIf="!(networkConnected$ | async)"
+  aria-hidden="true"
+  tooltip="Nicht verbunden mit recrep engine."
+  placement="bottom"></span>

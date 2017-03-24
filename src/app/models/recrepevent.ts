@@ -1,0 +1,29 @@
+export const RecrepEventType = {
+  RECORDSTREAM_CREATED: 'RECORDSTREAM_CREATED',
+  RECORDSTREAM_ENDED: 'RECORDSTREAM_ENDED',
+  REPLAYSTREAM_CREATED: 'REPLAYSTREAM_CREATED',
+  REPLAYSTREAM_ENDED: 'REPLAYSTREAM_ENDED',
+  RECORDJOB_REQUEST: 'RECORDJOB_REQUEST',
+  RECORDJOB_CANCEL_REQUEST: 'RECORDJOB_CANCEL_REQUEST',
+  RECORDJOB_STARTED: 'RECORDJOB_STARTED',
+  RECORDJOB_FINISHED: 'RECORDJOB_FINISHED',
+  REPLAYJOB_REQUEST: 'REPLAYJOB_REQUEST',
+  REPLAYJOB_CANCEL_REQUEST: 'REPLAYJOB_CANCEL_REQUEST',
+  REPLAYJOB_STARTED: 'REPLAYJOB_STARTED',
+  REPLAYJOB_FINISHED: 'REPLAYJOB_FINISHED'
+};
+
+export interface RecrepEvent {
+  type: string;
+  payload: any;
+  timestamp: number;
+}
+
+export const createRecrepEvent = (type: string, payload: any): RecrepEvent => {
+  return {
+    type: type,
+    payload: payload,
+    timestamp: new Date().getTime()
+  };
+};
+

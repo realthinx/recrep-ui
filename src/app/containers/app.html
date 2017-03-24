@@ -3,10 +3,8 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#">recrep</a>
     </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <form class="navbar-form navbar-right">
-        <input type="text" class="form-control" placeholder="Search...">
-      </form>
+    <div class="navbar-header navbar-right">
+      <rec-network-status class="navbar-text"></rec-network-status>
     </div>
   </div>
 </nav>
@@ -18,7 +16,7 @@
     <div class="col-xs-12">
       <div class="btn-toolbar" role="toolbar">
         <div class="btn-group">
-          <label class="btn btn-danger"  btnRadio="Record"><i class="glyphicon glyphicon-record"></i></label>
+          <label class="btn btn-danger" btnRadio="Record" (click)="recordjobmodal.show()"><i class="glyphicon glyphicon-record"></i></label>
         </div>
       </div>
     </div>
@@ -29,17 +27,29 @@
 
   <!-- Main Content -->
   <div class="row">
-    <div class="hidden-xs hidden-sm col-md-4">
-      <ul class="list-group">
-        <li class="list-group-item">Cras justo odio
-          <a><i class="glyphicon glyphicon-repeat pull-right"></i></a>
-        </li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
-      </ul>
+
+    <!-- Record Job Inventory -->
+    <rec-record-job-list [recordJobs]="recordJobs$"></rec-record-job-list>
+
+    <!-- Active and scheduled Record and Replay Jobs -->
+    <div class="col-sm-12 col-md-8">
+
+      <!-- active record jobs -->
+      <rec-record-job-panel *ngFor="let activeRecordJob of ( activeRecordJobs$ | async )"
+                            [recordJob]="activeRecordJob"
+                            [status]="'active'">
+      </rec-record-job-panel>
+
+      <!-- scheduled record jobs -->
+      <rec-record-job-panel *ngFor="let scheduledRecordJob of ( scheduledRecordJobs$ | async )"
+                            [recordJob]="scheduledRecordJob"
+                            [status]="'scheduled'">
+      </rec-record-job-panel>
+
     </div>
+
+
+    <!--
     <div class="col-sm-12 col-md-8">
       <div class="row">
         <div class="col-sm-12 col-md-4">
@@ -138,9 +148,17 @@
         </div>
       </div>
     </div>
+    -->
   </div>
 
   <!-- Modals -->
+
+  <!-- Record Job Modal -->
+  <rec-record-job #recordjobmodal="recordjobmodal"
+                  [recordEndpoints]="recordEndpoints$ | async"
+                  (onOk)="publishRecordJobRequest($event)">
+
+  </rec-record-job>
 
   <!-- Record Job -->
   <!--div bsModal #recordJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

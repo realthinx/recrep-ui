@@ -8,17 +8,14 @@ export const ActionTypes = {
 
 export class ConnectingAction implements Action {
   type = ActionTypes.CONNECTING;
-  constructor(public payload: string) { }
 }
 
 export class ConnectedAction implements Action {
   type = ActionTypes.CONNECTED;
-  constructor(public payload: string) { }
 }
 
 export class DisconnectedAction implements Action {
   type = ActionTypes.DISCONNECTED;
-  constructor(public payload: string) { }
 }
 
 export type Actions
