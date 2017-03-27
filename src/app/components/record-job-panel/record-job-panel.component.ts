@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {RecrepRecordJob} from '../../models/recordjob';
 import {EventBusService} from '../../services/eventbus.service';
 import * as moment from 'moment/moment'
@@ -10,17 +10,25 @@ import * as moment from 'moment/moment'
 })
 export class RecordJobPanelComponent implements OnInit {
 
+  @Output() onCancel = new EventEmitter();
   @Input() recordJob: RecrepRecordJob;
   @Input() status: string;
 
   progress: number = 0;
   timeUntilStart: any;
   timeUntilEnd: any;
+  endpointMetrics: any = {};
 
 
   constructor(private eventBusService: EventBusService) { }
 
   ngOnInit() {
+
+    this.recordJob.sourceMappings.forEach(endpointMapping => {
+      this.endpointMetrics[endpointMapping.sourceIdentifier] = 0;
+    });
+
+    this.eventBusService.subscribeToMetrics(this.recordJob.name, this.handleMetric);
 
     this.timeUntilStart = moment().to(this.recordJob.timestampStart);
     setInterval(() => {
@@ -35,6 +43,11 @@ export class RecordJobPanelComponent implements OnInit {
         },40);
       }
     }, 1000);
+  }
+
+  handleMetric = (metric: any): void => {
+    // console.log(JSON.stringify(metric));
+    this.endpointMetrics[metric.endpointIdentifier] = metric.count;
   }
 
 }

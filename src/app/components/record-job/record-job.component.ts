@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 
 import { RecrepRecordJob } from '../../models/recordjob';
-import * as moment from 'moment/moment'
+import * as moment from 'moment/moment';
 import {RecrepEndpointMapping} from "../../models/endpointmapping";
 import {Observable} from "rxjs";
 import {Store} from '@ngrx/store';
@@ -146,7 +146,6 @@ export class RecordJobComponent implements OnInit {
     }, { validator: this.validateRecordJob() });
 
     this.recordJobForm.valueChanges.subscribe(formValues => {
-      console.log(JSON.stringify(formValues));
       this.store.dispatch(new RecordJobValueUpdateAction(formValues))
     });
 

@@ -75,10 +75,32 @@ export class EventBusService {
     }
   }
 
+  publishRecordJobCancelRequest =  (recordJob: RecrepRecordJob): void => {
+    if(this.eventbus) {
+      this.eventbus.publish(RecrepEventbusAddress.RECREP_EVENTS,
+        createRecrepEvent(RecrepEventType.RECORDJOB_CANCEL_REQUEST, recordJob));
+    }
+  }
+
   publishReplayJobRequest =  (replayJob: RecrepReplayJob): void => {
     if(this.eventbus) {
       this.eventbus.publish(RecrepEventbusAddress.RECREP_EVENTS,
         createRecrepEvent(RecrepEventType.REPLAYJOB_REQUEST, replayJob));
+    }
+  }
+
+  publishReplayJobCancelRequest =  (replayJob: RecrepReplayJob): void => {
+    if(this.eventbus) {
+      this.eventbus.publish(RecrepEventbusAddress.RECREP_EVENTS,
+        createRecrepEvent(RecrepEventType.REPLAYJOB_CANCEL_REQUEST, replayJob));
+    }
+  }
+
+  subscribeToMetrics = (jobName: string, handler: (metric: any) => any): void => {
+    if(this.eventbus) {
+      this.eventbus.registerHandler('METRICS-' + jobName, function (error: any, message: any) {
+        handler(message.body);
+      });
     }
   }
 

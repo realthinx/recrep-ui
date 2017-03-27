@@ -6,20 +6,24 @@ import { combineReducers } from '@ngrx/store';
 import * as fromNetwork from './network';
 import * as fromInventory from './inventory';
 import * as fromRecordJob from './record-job';
+import * as fromReplayJob from './replay-job';
 import { environment } from '../../environments/environment';
 import { RecrepRecordJob } from '../models/recordjob';
+import { RecrepReplayJob } from '../models/replayjob';
 import { RecrepEndpointMapping } from '../models/endpointmapping';
 
 export interface State {
   network: fromNetwork.State;
   inventory: fromInventory.State;
   recordjob: fromRecordJob.State;
+  replayjob: fromReplayJob.State;
 }
 
 const reducers = {
   network: fromNetwork.reducer,
   inventory: fromInventory.reducer,
-  recordjob: fromRecordJob.reducer
+  recordjob: fromRecordJob.reducer,
+  replayjob: fromReplayJob.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -40,11 +44,15 @@ export const getNetworkConnecting = createSelector(getNetworkState, fromNetwork.
 export const getInventoryState = (state: State) => state.inventory;
 export const getRecordJobs = createSelector(getInventoryState, fromInventory.getRecordJobs);
 export const getActiveRecordJobs = createSelector(getInventoryState, fromInventory.getActiveRecordJobs);
+export const getActiveReplayJobs = createSelector(getInventoryState, fromInventory.getActiveReplayJobs);
 export const getScheduledRecordJobs = createSelector(getInventoryState, fromInventory.getScheduledRecordJobs);
 export const getRecordEndpoints = createSelector(getInventoryState, fromInventory.getRecordEndpoints);
 export const getReplayEndpoints = createSelector(getInventoryState, fromInventory.getReplayEndpoints);
 
 export const getRecordjobState = (state: State) => state.recordjob;
 export const getRecordjobEndpointMappings = createSelector(getRecordjobState, fromRecordJob.getEndpointMappings);
+
+export const getReplayjobState = (state: State) => state.replayjob;
+export const getReplayjobEndpointMappings = createSelector(getReplayjobState, fromReplayJob.getEndpointMappings);
 
 

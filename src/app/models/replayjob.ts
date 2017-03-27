@@ -9,5 +9,8 @@ export interface RecrepReplayJob {
   speedFactor: number;
   timestampFrom: number;
   timestampTo: number;
+  timestampStart: number;
+  timestampEnd: number;
+  duration: number;
   filePath: string;
 }

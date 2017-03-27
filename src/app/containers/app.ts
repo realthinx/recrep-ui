@@ -7,6 +7,7 @@ import { Observable}  from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import { RecrepEndpointMapping } from '../models/endpointmapping';
+import {RecrepReplayJob} from "../models/replayjob";
 
 @Component({
   selector: 'rec-app',
@@ -18,8 +19,8 @@ export class AppComponent implements OnInit {
   recordJobs$: Observable<RecrepRecordJob[]>;
   scheduledRecordJobs$: Observable<RecrepRecordJob[]>;
   activeRecordJobs$: Observable<RecrepRecordJob[]>;
+  activeReplayJobs$: Observable<RecrepReplayJob[]>;
   recordEndpoints$: Observable<RecrepEndpointMapping[]>;
-  replayEndpoints$: Observable<RecrepEndpointMapping[]>;
 
   constructor(private eventBusService: EventBusService,
               private store: Store<fromRoot.State>) {
@@ -29,8 +30,18 @@ export class AppComponent implements OnInit {
     this.recordJobs$ = this.store.select(fromRoot.getRecordJobs);
     this.scheduledRecordJobs$ = this.store.select(fromRoot.getScheduledRecordJobs);
     this.activeRecordJobs$ = this.store.select(fromRoot.getActiveRecordJobs);
+    this.activeReplayJobs$ = this.store.select(fromRoot.getActiveReplayJobs);
     this.recordEndpoints$ = this.store.select(fromRoot.getRecordEndpoints);
-    this.replayEndpoints$ = this.store.select(fromRoot.getReplayEndpoints);
+  }
+
+  publishRecordJobCancelRequest = (recordJob: RecrepRecordJob) => {
+    console.log('publish recordjob cancel request ' + JSON.stringify(recordJob));
+    this.eventBusService.publishRecordJobCancelRequest(recordJob);
+  }
+
+  publishReplayJobCancelRequest = (replayJob: RecrepReplayJob) => {
+    console.log('publish recordjob cancel request ' + JSON.stringify(replayJob));
+    this.eventBusService.publishReplayJobCancelRequest(replayJob);
   }
 
   publishRecordJobRequest = (recordJob: RecrepRecordJob) => {
