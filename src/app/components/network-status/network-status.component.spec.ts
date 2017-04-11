@@ -1,25 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
 import { NetworkStatusComponent } from './network-status.component';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from '../../reducers/index';
 
 describe('NetworkStatusComponent', () => {
-  let component: NetworkStatusComponent;
-  let fixture: ComponentFixture<NetworkStatusComponent>;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NetworkStatusComponent ]
-    })
-    .compileComponents();
+      declarations: [
+        NetworkStatusComponent
+      ],
+      imports: [
+        StoreModule.provideStore(reducer)
+      ]
+    }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(NetworkStatusComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  it('should create the app', async(() => {
+    const fixture = TestBed.createComponent(NetworkStatusComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+
 });

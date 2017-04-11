@@ -1,6 +1,6 @@
 # RecrepUi
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-rc.1.
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0.
 
 ## Install angular-cli
 [angular-cli installation](h@)

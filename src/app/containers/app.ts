@@ -7,7 +7,7 @@ import { Observable}  from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import { RecrepEndpointMapping } from '../models/endpointmapping';
-import {RecrepReplayJob} from "../models/replayjob";
+import { RecrepReplayJob } from '../models/replayjob';
 
 @Component({
   selector: 'rec-app',
