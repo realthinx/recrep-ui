@@ -42,8 +42,8 @@ export class ReplayJobPanelComponent implements OnInit {
   }
 
   handleMetric = (metric: any): void => {
-    console.log('received metric: ' + JSON.stringify(metric));
-    this.endpointMetrics[metric.endpointIdentifier] = metric.count;
+    // console.log('received metric: ' + JSON.stringify(metric));
+    this.endpointMetrics[metric.endpointIdentifier] = metric.metrics.messageCount;
   }
 
 }

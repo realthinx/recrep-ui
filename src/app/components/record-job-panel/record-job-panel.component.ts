@@ -47,7 +47,7 @@ export class RecordJobPanelComponent implements OnInit {
 
   handleMetric = (metric: any): void => {
     // console.log(JSON.stringify(metric));
-    this.endpointMetrics[metric.endpointIdentifier] = metric.count;
+    this.endpointMetrics[metric.endpointIdentifier] = metric.metrics.messageCount;
   }
 
 }
