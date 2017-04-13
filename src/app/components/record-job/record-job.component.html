@@ -139,10 +139,12 @@
                       <ul class="list-group">
                         <li class="list-group-item" *ngFor="let mapping of recordJobState.endpointMappings">
                           <div class="row">
-                            <div class="col-xs-1">
+                            <div class="col-xs-12">
                               <span class="label label-default">{{ mapping.stage }}</span>
                             </div>
-                            <div class="col-xs-9">
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-10">
                               {{ mapping.handlerLabel }} - {{ mapping.sourceIdentifierLabel }}
                             </div>
                             <div class="col-xs-2">
