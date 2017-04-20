@@ -120,11 +120,26 @@
                         <option *ngFor="let handler of (getHandlerLabel(recordJobForm.controls.stage.value) | async)">{{handler}}</option>
                       </select>
                     </div>
-                    <div class="col-xs-4" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value">
+                    <div class="col-xs-6" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value">
                       <select id="sourceIdentifier" class="form-control" formControlName="sourceIdentifierLabel">
                         <option></option>
                         <option *ngFor="let sourceIdentifier of (getSourceIdentifierLabel(recordJobForm.controls.stage.value, recordJobForm.controls.handlerLabel.value) | async)">{{sourceIdentifier}}</option>
                       </select>
+                    </div>
+                  
+                  </div>
+
+                  <!-- Labels -->
+                  <div class="row top-buffer" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
+                    <div class="col-xs-2">
+                      <label for="headerFilter">Header Filter</label>
+                    </div>
+                  </div>
+
+                  <!-- Fields -->
+                  <div class="row" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
+                    <div class="col-xs-10">
+                      <input type="text" class="form-control" formControlName="headerFilter" id="headerFilter" placeholder="Filter Expression">
                     </div>
                     <div class="col-xs-2" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
                       <button id="action" type="button" class="btn btn-default pull-right" (click)="addEndpointMapping()">
@@ -145,7 +160,8 @@
                           </div>
                           <div class="row">
                             <div class="col-xs-10">
-                              {{ mapping.handlerLabel }} - {{ mapping.sourceIdentifierLabel }}
+                              <div>{{ mapping.handlerLabel }} - {{ mapping.sourceIdentifierLabel }}</div>
+                              <div *ngIf="mapping.properties.headerFilter"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> {{ mapping.properties.headerFilter }}</div>
                             </div>
                             <div class="col-xs-2">
                               <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true" (click)="removeEndpointMapping(mapping)"></span>

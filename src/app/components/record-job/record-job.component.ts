@@ -118,7 +118,18 @@ export class RecordJobComponent implements OnInit {
     return Observable.from(this.recordEndpoints)
       .first(recordEndpoint => recordEndpoint.stage === this.recordJobState.stage
         && recordEndpoint.handlerLabel === this.recordJobState.handlerLabel
-        && recordEndpoint.sourceIdentifierLabel === this.recordJobState.sourceIdentifierLabel);
+        && recordEndpoint.sourceIdentifierLabel === this.recordJobState.sourceIdentifierLabel)
+      .map(recordEndpoint => {
+        if (this.recordJobState.headerFilter) {
+          return Object.assign({}, recordEndpoint, {
+              properties: Object.assign({}, recordEndpoint.properties, {
+                headerFilter: this.recordJobState.headerFilter
+              })
+          });
+        } else {
+          return recordEndpoint;
+        }
+      });
   }
 
   addEndpointMapping = (): void => {
@@ -142,6 +153,7 @@ export class RecordJobComponent implements OnInit {
       stage: '',
       handlerLabel: '',
       sourceIdentifierLabel: '',
+      headerFilter: '',
       maxFileSize: [ 10, Validators.required]
     }, { validator: this.validateRecordJob() });
 

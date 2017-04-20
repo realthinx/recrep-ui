@@ -7,4 +7,5 @@ export interface RecrepEndpointMapping {
   targetIdentifierLabel: string;
   stage: string;
   metrics: any;
+  properties: any;
 }

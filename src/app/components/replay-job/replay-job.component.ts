@@ -45,8 +45,8 @@ export class ReplayJobComponent implements OnInit {
   }
 
   show = (recordJob: RecrepRecordJob): void => {
-    this.initializeReplayJobForm();
     this.recordJob = recordJob;
+    this.initializeReplayJobForm();
     this.replayJobModal.show();
   }
 
@@ -134,7 +134,7 @@ export class ReplayJobComponent implements OnInit {
 
   initializeReplayJobForm = (): void => {
     this.replayJobForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: [this.recordJob?this.recordJob.name + '-Replay':'', Validators.required],
       scheduled: [ false, Validators.required],
       dateStart: [moment().format('DD.MM.YYYY'), Validators.pattern(/^\d{1,2}\.\d{1,2}\.\d{4}$/)],
       timeStart: [null, Validators.pattern(/^\d{2}\:\d{2}$/)],
@@ -172,4 +172,15 @@ export class ReplayJobComponent implements OnInit {
     }
   }
 
+  totalMessageCount = (): number => {
+    if(this.recordJob) {
+      return this.recordJob.sourceMappings.reduce((a, b) => a + b.metrics.messageCount, 0);
+    }
+  }
+
+  totalMessageSizeMb = (): number => {
+    if(this.recordJob) {
+      return this.recordJob.sourceMappings.reduce((a, b) => a + b.metrics.messageSizeBytes, 0);
+    }
+  }
 }

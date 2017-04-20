@@ -12,6 +12,7 @@ export interface State {
   stage: string;
   handlerLabel: string;
   sourceIdentifierLabel: string;
+  headerFilter: string;
   endpointMappings: RecrepEndpointMapping[];
   maxFileSize: number;
   filePath: string;
@@ -28,6 +29,7 @@ export const initialState: State = {
   stage: '',
   handlerLabel: '',
   sourceIdentifierLabel: '',
+  headerFilter: '',
   endpointMappings: [],
   maxFileSize: null,
   filePath: ''
@@ -47,7 +49,8 @@ export function reducer(state = initialState, action: recordjob.Actions): State 
               stage: action.payload.stage,
               handlerLabel: action.payload.handlerLabel,
               sourceIdentifierLabel: action.payload.sourceIdentifierLabel,
-              maxFileSize: action.payload.maxFileSize
+              maxFileSize: action.payload.maxFileSize,
+              headerFilter: action.payload.headerFilter
             });
         }
         case recordjob.ActionTypes.ADD_ENDPOINT_MAPPING_CLICKED: {
