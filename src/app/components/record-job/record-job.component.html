@@ -42,12 +42,30 @@
             <div class="row">
               <div class="col-xs-2">
                 <div class="form-group">
-                  <label for="duration">Duration (sec)</label>
-                  <input id="duration" type="number" class="form-control" formControlName="duration" required>
+                  <label for="maxFileSize">Max Size (Mb)</label>
+                  <input id="maxFileSize" type="number" class="form-control" formControlName="maxFileSize" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="duration">Duration</label>
+                  <select id="duration" class="form-control" formControlName="duration">
+                    <option *ngFor="let duration of durations" [ngValue]="duration">{{duration}}</option>
+                  </select>
                 </div>
               </div>
 
-              <div class="col-xs-2">
+              <div class="col-xs-2" *ngIf="recordJobForm.controls.duration.value.toLowerCase() === 'time'">
+                <div class="form-group">
+                  <label for="timeFrame">Seconds</label>
+                  <input id="timeFrame" type="number" class="form-control" formControlName="timeFrame" required>
+                </div>
+              </div>
+
+              <div class="col-xs-2" align="center">
                 <div class="form-group">
                   <label for="scheduled"> </label>
                   <div id="scheduled" class="checkbox">
@@ -73,110 +91,97 @@
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-xs-2">
-                <div class="form-group">
-                  <label for="maxFileSize">Max Size (Mb)</label>
-                  <input id="maxFileSize" type="number" class="form-control" formControlName="maxFileSize" required>
-                </div>
-              </div>
-            </div>
-
-
             <div class="row top-buffer">
               <div class="col-xs-12">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Record Endpoint Mappings</h3>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Record Endpoint Mappings</h3>
+                  </div>
+                  <div class="panel-body">
+                    <!-- Labels -->
+                    <div class="row">
+                      <div class="col-xs-2">
+                        <label for="stage">Stage</label>
+                      </div>
+                      <div class="col-xs-4" [hidden]="!recordJobForm.controls.stage.value">
+                        <label for="handler">Handler</label>
+                      </div>
+                      <div class="col-xs-4" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value">
+                        <label for="sourceIdentifier">Source Identifier</label>
+                      </div>
+                      <div class="col-xs-2" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
+                        <label for="action"></label>
+                      </div>
+                    </div>
+
+                    <!-- Fields -->
+                    <div class="row">
+                      <div class="col-xs-2">
+                        <select id="stage" class="form-control" formControlName="stage">
+                          <option></option>
+                          <option *ngFor="let stage of (getStages() | async)">{{stage}}</option>
+                        </select>
+                      </div>
+                      <div class="col-xs-4" [hidden]="!recordJobForm.controls.stage.value">
+                        <select id="handler" class="form-control" formControlName="handlerLabel">
+                          <option></option>
+                          <option *ngFor="let handler of (getHandlerLabel(recordJobForm.controls.stage.value) | async)">{{handler}}</option>
+                        </select>
+                      </div>
+                      <div class="col-xs-6" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value">
+                        <select id="sourceIdentifier" class="form-control" formControlName="sourceIdentifierLabel">
+                          <option></option>
+                          <option *ngFor="let sourceIdentifier of (getSourceIdentifierLabel(recordJobForm.controls.stage.value, recordJobForm.controls.handlerLabel.value) | async)">{{sourceIdentifier}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- Labels -->
+                    <div class="row top-buffer" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
+                      <div class="col-xs-2">
+                        <label for="headerFilter">Header Filter</label>
+                      </div>
+                    </div>
+
+                    <!-- Fields -->
+                    <div class="row" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
+                      <div class="col-xs-10">
+                        <input type="text" class="form-control" formControlName="headerFilter" id="headerFilter" placeholder="Filter Expression">
+                      </div>
+                      <div class="col-xs-2" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
+                        <button id="action" type="button" class="btn btn-default pull-right" (click)="addEndpointMapping()">
+                          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- List -->
+                    <div class="row top-buffer">
+                      <div class="col-xs-12">
+                        <ul class="list-group">
+                          <li class="list-group-item" *ngFor="let mapping of recordJobState.endpointMappings">
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <span class="label label-default">{{ mapping.stage }}</span>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-10">
+                                <div>{{ mapping.handlerLabel }} - {{ mapping.sourceIdentifierLabel }}</div>
+                                <div *ngIf="mapping.properties.headerFilter"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> {{ mapping.properties.headerFilter }}</div>
+                              </div>
+                              <div class="col-xs-2">
+                                <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true" (click)="removeEndpointMapping(mapping)"></span>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="panel-body">
-                  <!-- Labels -->
-                  <div class="row">
-                    <div class="col-xs-2">
-                      <label for="stage">Stage</label>
-                    </div>
-                    <div class="col-xs-4" [hidden]="!recordJobForm.controls.stage.value">
-                      <label for="handler">Handler</label>
-                    </div>
-                    <div class="col-xs-4" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value">
-                      <label for="sourceIdentifier">Source Identifier</label>
-                    </div>
-                    <div class="col-xs-2" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
-                      <label for="action"></label>
-                    </div>
-                  </div>
-
-                  <!-- Fields -->
-                  <div class="row">
-                    <div class="col-xs-2">
-                      <select id="stage" class="form-control" formControlName="stage">
-                        <option></option>
-                        <option *ngFor="let stage of (getStages() | async)">{{stage}}</option>
-                      </select>
-                    </div>
-                    <div class="col-xs-4" [hidden]="!recordJobForm.controls.stage.value">
-                      <select id="handler" class="form-control" formControlName="handlerLabel">
-                        <option></option>
-                        <option *ngFor="let handler of (getHandlerLabel(recordJobForm.controls.stage.value) | async)">{{handler}}</option>
-                      </select>
-                    </div>
-                    <div class="col-xs-6" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value">
-                      <select id="sourceIdentifier" class="form-control" formControlName="sourceIdentifierLabel">
-                        <option></option>
-                        <option *ngFor="let sourceIdentifier of (getSourceIdentifierLabel(recordJobForm.controls.stage.value, recordJobForm.controls.handlerLabel.value) | async)">{{sourceIdentifier}}</option>
-                      </select>
-                    </div>
-                  
-                  </div>
-
-                  <!-- Labels -->
-                  <div class="row top-buffer" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
-                    <div class="col-xs-2">
-                      <label for="headerFilter">Header Filter</label>
-                    </div>
-                  </div>
-
-                  <!-- Fields -->
-                  <div class="row" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
-                    <div class="col-xs-10">
-                      <input type="text" class="form-control" formControlName="headerFilter" id="headerFilter" placeholder="Filter Expression">
-                    </div>
-                    <div class="col-xs-2" [hidden]="!recordJobForm.controls.handlerLabel.value || !recordJobForm.controls.stage.value || !recordJobForm.controls.sourceIdentifierLabel.value">
-                      <button id="action" type="button" class="btn btn-default pull-right" (click)="addEndpointMapping()">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add
-                      </button>
-                    </div>
-                  </div>
-
-                  <!-- List -->
-                  <div class="row top-buffer">
-                    <div class="col-xs-12">
-                      <ul class="list-group">
-                        <li class="list-group-item" *ngFor="let mapping of recordJobState.endpointMappings">
-                          <div class="row">
-                            <div class="col-xs-12">
-                              <span class="label label-default">{{ mapping.stage }}</span>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-xs-10">
-                              <div>{{ mapping.handlerLabel }} - {{ mapping.sourceIdentifierLabel }}</div>
-                              <div *ngIf="mapping.properties.headerFilter"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> {{ mapping.properties.headerFilter }}</div>
-                            </div>
-                            <div class="col-xs-2">
-                              <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true" (click)="removeEndpointMapping(mapping)"></span>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
               </div>
             </div>
-
-
           </form>
         </div>
       </div>

@@ -41,19 +41,18 @@ export class RecordJobComponent implements OnInit {
   recordJobForm: FormGroup;
   recordJobState: State;
 
+  durations = ['Endless', 'Time'];
+
   constructor(private formBuilder: FormBuilder,
               private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
-
     this.store.select('recordjob')
       .subscribe( state => {
         this.recordJobState = <State>state;
       });
 
     this.initializeRecordJobForm();
-
-
   }
 
   show = (): void => {
@@ -109,7 +108,10 @@ export class RecordJobComponent implements OnInit {
     } else {
       recordJob.timestampStart = moment().add(1, 'seconds').valueOf();
     }
-    recordJob.timestampEnd = recordJob.timestampStart + (this.recordJobState.duration * 1000);
+
+    if (this.recordJobState.duration === 'Time') {
+      recordJob.timestampEnd = recordJob.timestampStart + (this.recordJobState.timeFrame * 1000);
+    }
 
     return recordJob;
   }
@@ -146,7 +148,8 @@ export class RecordJobComponent implements OnInit {
     this.recordJobForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: '',
-      duration: [ '60', Validators.required],
+      duration: [this.durations[0], Validators.required],
+      timeFrame: '60',
       scheduled: [ false, Validators.required],
       dateStart: [moment().format('DD.MM.YYYY'), Validators.pattern(/^\d{1,2}\.\d{1,2}\.\d{4}$/)],
       timeStart: [null, Validators.pattern(/^\d{2}\:\d{2}$/)],
@@ -156,6 +159,7 @@ export class RecordJobComponent implements OnInit {
       headerFilter: '',
       maxFileSize: [ 10, Validators.required]
     }, { validator: this.validateRecordJob() });
+
 
     this.recordJobForm.valueChanges.subscribe(formValues => {
       this.store.dispatch(new RecordJobValueUpdateAction(formValues))

@@ -45,7 +45,7 @@ body {
   }
 }
 
-.top-buffer { margin-top:20px; }
+.top-buffer { margin-top:10px; }
 
 .ng-valid[required], .ng-valid.required  {
   border-left: 5px solid #42A948; /* green */

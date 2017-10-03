@@ -5,7 +5,8 @@ import { RecrepRecordJob } from "../models/recordjob";
 export interface State {
   name: string;
   description: string;
-  duration: number;
+  duration: string;
+  timeFrame: number;
   scheduled: boolean;
   startDate: string;
   startTime: string;
@@ -16,13 +17,13 @@ export interface State {
   endpointMappings: RecrepEndpointMapping[];
   maxFileSize: number;
   filePath: string;
-
 };
 
 export const initialState: State = {
   name: '',
   description: '',
-  duration: null,
+  duration: 'endless',
+  timeFrame: null,
   scheduled: false,
   startDate: '',
   startTime: '',
@@ -43,6 +44,7 @@ export function reducer(state = initialState, action: recordjob.Actions): State 
               name: action.payload.name,
               description: action.payload.description,
               duration: action.payload.duration,
+              timeFrame: action.payload.timeFrame,
               scheduled: action.payload.scheduled,
               startDate: action.payload.dateStart,
               startTime: action.payload.timeStart,

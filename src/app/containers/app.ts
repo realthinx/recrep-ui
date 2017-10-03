@@ -48,7 +48,4 @@ export class AppComponent implements OnInit {
     console.log('publish recordjob request ' + JSON.stringify(recordJob));
     this.eventBusService.publishRecordJobRequest(recordJob);
   }
-
-
-
 }
