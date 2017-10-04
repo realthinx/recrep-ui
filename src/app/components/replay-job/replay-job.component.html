@@ -43,6 +43,14 @@
                     </div>
                     <div class="row">
                       <div class="col-xs-2">
+                        <label class="pull-right">Record Time</label>
+                      </div>
+                      <div class="col-xs-10">
+                        <span>{{ dateTime(recordJob?.timestampStart) }} - {{ dateTime(recordJob?.timestampEnd) }}</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-2">
                         <label class="pull-right">Duration</label>
                       </div>
                       <div class="col-xs-10">

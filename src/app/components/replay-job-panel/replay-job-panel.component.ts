@@ -30,7 +30,6 @@ export class ReplayJobPanelComponent implements OnInit {
     setInterval(() => {
       this.timeUntilEnd = moment().to(this.replayJob.timestampEnd);
       if (this.progress === 0) {
-
         let intervalId = setInterval(() => {
           this.progress = ((moment().valueOf() - this.replayJob.timestampStart) * 100) / (this.replayJob.timestampEnd - this.replayJob.timestampStart);
           if(this.progress >= 100) {
