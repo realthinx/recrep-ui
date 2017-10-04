@@ -19,7 +19,6 @@ export class RecordJobPanelComponent implements OnInit {
   timeUntilEnd: any;
   endpointMetrics: any = {};
 
-
   constructor(private eventBusService: EventBusService) { }
 
   ngOnInit() {
