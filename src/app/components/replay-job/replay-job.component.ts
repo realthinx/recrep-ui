@@ -183,4 +183,8 @@ export class ReplayJobComponent implements OnInit {
       return this.recordJob.sourceMappings.reduce((a, b) => a + b.metrics.messageSizeBytes, 0);
     }
   }
+
+  dateTime = (timestamp: number): string => {
+    return moment(timestamp).format('DD. MMM YYYY, H:mm:ss');
+  }
 }
