@@ -57,7 +57,7 @@
                         <span>{{(recordJob?.timestampEnd - recordJob?.timestampStart) / 1000 }} sec</span>
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="totalMessageCount()">
                       <div class="col-xs-2">
                         <label class="pull-right">Records</label>
                       </div>
@@ -81,9 +81,9 @@
                                   <div *ngIf="sourceMapping.properties.headerFilter"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> {{ sourceMapping.properties.headerFilter }}</div>
                                 </div>
                                 <div class="col-xs-3">
-                                  <div><small><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{ sourceMapping.metrics.messageCount }}</small></div>
-                                  <div><small><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>  {{ sourceMapping.metrics.messageRateSecond | number:'1.2-2' }} / sec</small></div>
-                                  <div><small><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> {{ sourceMapping.metrics.messageSizeBytes / 1024 / 1024 | number:'1.3-3' }} mb</small></div>
+                                  <div *ngIf="sourceMapping.metrics.messageCount"><small><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{ sourceMapping.metrics.messageCount }}</small></div>
+                                  <div *ngIf="sourceMapping.metrics.messageRateSecond"><small><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>  {{ sourceMapping.metrics.messageRateSecond | number:'1.2-2' }} / sec</small></div>
+                                  <div *ngIf="sourceMapping.metrics.messageSizeBytes"><small><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> {{ sourceMapping.metrics.messageSizeBytes / 1024 / 1024 | number:'1.3-3' }} mb</small></div>
                                 </div>
                               </div>
                             </div>
