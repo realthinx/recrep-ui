@@ -12,6 +12,7 @@ export interface State {
   targetIdentifierLabel: string;
   endpointMappings: RecrepEndpointMapping[];
   sourceIdentifier: string;
+  speedFactor: number;
 };
 
 export const initialState: State = {
@@ -23,7 +24,8 @@ export const initialState: State = {
   handlerLabel: '',
   targetIdentifierLabel: '',
   endpointMappings: [],
-  sourceIdentifier: null
+  sourceIdentifier: null,
+  speedFactor: 1
 };
 
 export function reducer(state = initialState, action: replayjob.Actions): State {
@@ -39,7 +41,8 @@ export function reducer(state = initialState, action: replayjob.Actions): State 
               handlerLabel: action.payload.handlerLabel,
               targetIdentifierLabel: action.payload.targetIdentifierLabel,
               maxFileSize: action.payload.maxFileSize,
-              sourceIdentifier: action.payload.sourceIdentifier
+              sourceIdentifier: action.payload.sourceIdentifier,
+              speedFactor: action.payload.speedFactor
             });
         }
         case replayjob.ActionTypes.ADD_ENDPOINT_MAPPING_CLICKED: {

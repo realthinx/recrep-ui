@@ -117,7 +117,7 @@ export class ReplayJobComponent implements OnInit {
       targetMappings: this.replayJobState.endpointMappings,
       filePath: this.recordJob.filePath,
       recordJobName: this.recordJob.name,
-      speedFactor: 1
+      speedFactor: this.replayJobState.speedFactor
     });
 
     replayJob.timestampStart = moment().add(1, 'seconds').valueOf();
@@ -141,7 +141,8 @@ export class ReplayJobComponent implements OnInit {
       sourceIdentifier: '',
       stage: '',
       handlerLabel: '',
-      targetIdentifierLabel: ''
+      targetIdentifierLabel: '',
+      speedFactor: [1]
     }, { validator: this.validateReplayJob() });
 
     this.replayJobForm.valueChanges.subscribe(formValues => {

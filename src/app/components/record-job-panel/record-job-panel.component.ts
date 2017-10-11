@@ -18,7 +18,7 @@ export class RecordJobPanelComponent implements OnInit {
   timeUntilStart: any;
   timeUntilEnd: any;
   endpointMetrics: any = {};
-
+  jobMetrics: any = {};
 
   constructor(private eventBusService: EventBusService) { }
 
@@ -47,6 +47,7 @@ export class RecordJobPanelComponent implements OnInit {
 
   handleMetric = (metric: any): void => {
     this.endpointMetrics[metric.endpointIdentifier] = metric.metrics;
+    this.jobMetrics = metric.metrics;
   }
 
 }
