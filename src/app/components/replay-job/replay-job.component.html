@@ -98,26 +98,8 @@
             <div class="row">
               <div class="col-xs-2">
                 <div class="form-group">
-                  <label for="scheduled"> </label>
-                  <div id="scheduled" class="checkbox">
-                    <label>
-                      <input type="checkbox" formControlName="scheduled"> Scheduled
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-2" [hidden]="replayJobForm.controls.scheduled.value !== true">
-                <div class="form-group">
-                  <label for="dateStart">Start Date</label>
-                  <input id="dateStart" type="text" class="form-control" formControlName="dateStart" placeholder="DD.MM.YYYY">
-                </div>
-              </div>
-
-              <div class="col-xs-2" [hidden]="replayJobForm.controls.scheduled.value !== true">
-                <div class="form-group">
-                  <label for="timestampStart">Start Time</label>
-                  <input id="timestampStart" type="text" class="form-control" formControlName="timeStart" placeholder="HH:MM">
+                  <label for="speedFactor">Speedfactor</label>
+                  <input id="speedFactor" type="number" min="1" max="10" class="form-control" formControlName="speedFactor" value="1">
                 </div>
               </div>
             </div>

@@ -16,6 +16,7 @@ export class ReplayJobPanelComponent implements OnInit {
 
   progress: number = 0;
   timeUntilEnd: any;
+  timestampEndWithSpeedFactor: any;
   endpointMetrics: any = {};
 
   constructor(private eventBusService: EventBusService) { }
@@ -25,13 +26,15 @@ export class ReplayJobPanelComponent implements OnInit {
       this.endpointMetrics[endpointMapping.targetIdentifier] = 0;
     });
 
+    this.timestampEndWithSpeedFactor = this.replayJob.timestampStart + ((this.replayJob.timestampEnd - this.replayJob.timestampStart) / this.replayJob.speedFactor);
+
     this.eventBusService.subscribeToMetrics(this.replayJob.name, this.handleMetric);
 
     setInterval(() => {
-      this.timeUntilEnd = moment().to(this.replayJob.timestampEnd);
+      this.timeUntilEnd = moment().to(this.timestampEndWithSpeedFactor);
       if (this.progress === 0) {
         let intervalId = setInterval(() => {
-          this.progress = ((moment().valueOf() - this.replayJob.timestampStart) * 100) / (this.replayJob.timestampEnd - this.replayJob.timestampStart);
+          this.progress = ((moment().valueOf() - this.replayJob.timestampStart) * 100) / ((this.timestampEndWithSpeedFactor - this.replayJob.timestampStart));
           if(this.progress >= 100) {
             clearInterval(intervalId);
           }
