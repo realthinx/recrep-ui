@@ -98,7 +98,7 @@ export class RecordJobComponent implements OnInit {
     let recordJob = Object.assign(<RecrepRecordJob>{}, {
       name: this.recordJobState.name,
       description: this.recordJobState.description,
-      maxSizeMb: this.recordJobState.maxFileSize + ' MB',
+      maxSizeMb: this.recordJobState.maxFileSize,
       sourceMappings: this.recordJobState.endpointMappings,
       filePath: './.temp'
     });
