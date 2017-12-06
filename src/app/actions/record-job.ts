@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import {RecrepEndpointMapping} from "../models/endpointmapping";
+import { RecrepEndpointMapping } from '../models/endpointmapping';
 
 export const ActionTypes = {
   RECORD_JOB_VALUES_UPDATED:       '[RecordJob] Form Values Update',

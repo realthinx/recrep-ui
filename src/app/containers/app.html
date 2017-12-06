@@ -10,145 +10,157 @@
 </nav>
 
 <div class="container-fluid">
-
-  <!-- Action Bar -->
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group">
-          <label class="btn btn-danger" btnRadio="Record" (click)="recordjobmodal.show()"><i class="glyphicon glyphicon-record"></i></label>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <h2></h2>
-    </div>
-  </div>
-
   <!-- Main Content -->
-  <div class="row">
-
-    <!-- Record Job Inventory -->
-    <rec-record-job-list [recordJobs]="recordJobs$"></rec-record-job-list>
-
-    <!-- Active and scheduled Record and Replay Jobs -->
-    <div class="col-sm-12 col-md-8">
-
-      <!-- active record jobs -->
-      <rec-record-job-panel *ngFor="let activeRecordJob of ( activeRecordJobs$ | async )"
-                            [recordJob]="activeRecordJob"
-                            [status]="'active'"
-                            (onCancel)="publishRecordJobCancelRequest($event)">
-      </rec-record-job-panel>
-
-      <!-- scheduled record jobs -->
-      <rec-record-job-panel *ngFor="let scheduledRecordJob of ( scheduledRecordJobs$ | async )"
-                            [recordJob]="scheduledRecordJob"
-                            [status]="'scheduled'"
-                            (onCancel)="publishRecordJobCancelRequest($event)">
-      </rec-record-job-panel>
-
-      <!-- active replay jobs -->
-      <rec-replay-job-panel *ngFor="let activeReplayJob of ( activeReplayJobs$ | async )"
-                            [replayJob]="activeReplayJob"
-                            [status]="'active'"
-                            (onCancel)="publishReplayJobCancelRequest($event)">
-      </rec-replay-job-panel>
-
-    </div>
-
-
-    <!--
-    <div class="col-sm-12 col-md-8">
-      <div class="row">
-        <div class="col-sm-12 col-md-4">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <i class="glyphicon glyphicon-repeat gly-spin"></i> Panel heading without title
+  <tabset>
+    <tab heading='record jobs'>
+      <div class="container-fluid tab-padding">
+        <!-- Action Bar -->
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <label class="btn btn-danger" btnRadio="Record" (click)="recordjobmodal.show()"><i class="glyphicon glyphicon-record"></i></label>
+              </div>
             </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              <div class="row">
-                <div class="col-sm-12 col-md-12">
-                  <progressbar class="progress-striped" value="22">22%</progressbar>
-                  <div class="btn-toolbar" role="toolbar">
-                    <div class="btn-group">
-                      <label class="btn btn-primary" btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
-                      <label class="btn btn-primary" btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
-                      <label class="btn btn-primary" btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
-                    </div>
+          </div>
+          <div class="col-xs-12">
+            <h2></h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Record Job Inventory -->
+          <rec-record-job-list [recordJobs]="recordJobs$"></rec-record-job-list>
+
+          <!-- Active and scheduled Record and Replay Jobs -->
+          <div class="col-sm-12 col-md-8">
+
+            <!-- active record jobs -->
+            <rec-record-job-panel *ngFor="let activeRecordJob of ( activeRecordJobs$ | async )"
+                                  [recordJob]="activeRecordJob"
+                                  [status]="'active'"
+                                  (onCancel)="publishRecordJobCancelRequest($event)">
+            </rec-record-job-panel>
+
+            <!-- scheduled record jobs -->
+            <rec-record-job-panel *ngFor="let scheduledRecordJob of ( scheduledRecordJobs$ | async )"
+                                  [recordJob]="scheduledRecordJob"
+                                  [status]="'scheduled'"
+                                  (onCancel)="publishRecordJobCancelRequest($event)">
+            </rec-record-job-panel>
+
+            <!-- active replay jobs -->
+            <rec-replay-job-panel *ngFor="let activeReplayJob of ( activeReplayJobs$ | async )"
+                                  [replayJob]="activeReplayJob"
+                                  [status]="'active'"
+                                  (onCancel)="publishReplayJobCancelRequest($event)">
+            </rec-replay-job-panel>
+          </div>
+        </div>
+      </div>
+    </tab>
+    <tab heading='analysis'>
+      <div class="container-fluid tab-padding">
+        <div class="row">
+          <analysis [recordJobs]="recordJobs$"
+                    [queryResult]="queryResult$"
+                    (onSearch)="publishRecordJobAnalysisRequest($event)">
+          </analysis>
+        </div>
+      </div>
+    </tab>
+  </tabset>
+
+  <!--
+  <div class="col-sm-12 col-md-8">
+    <div class="row">
+      <div class="col-sm-12 col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <i class="glyphicon glyphicon-repeat gly-spin"></i> Panel heading without title
+          </div>
+          <div class="panel-body">
+            Panel content
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <progressbar class="progress-striped" value="22">22%</progressbar>
+                <div class="btn-toolbar" role="toolbar">
+                  <div class="btn-group">
+                    <label class="btn btn-primary" btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
+                    <label class="btn btn-primary" btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
+                    <label class="btn btn-primary" btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-12 col-md-4">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <i class="glyphicon glyphicon-repeat gly-spin"></i> Panel heading without title
-            </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              <div class="row">
-                <div class="col-sm-12 col-md-12">
-                  <progressbar class="progress-striped" value="0">0%</progressbar>
-                  <div class="btn-toolbar" role="toolbar">
-                    <div class="btn-group">
-                      <label class="btn btn-primary"  btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
-                      <label class="btn btn-primary"  btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
-                      <label class="btn btn-primary"  btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
-                    </div>
+      </div>
+      <div class="col-sm-12 col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <i class="glyphicon glyphicon-repeat gly-spin"></i> Panel heading without title
+          </div>
+          <div class="panel-body">
+            Panel content
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <progressbar class="progress-striped" value="0">0%</progressbar>
+                <div class="btn-toolbar" role="toolbar">
+                  <div class="btn-group">
+                    <label class="btn btn-primary"  btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
+                    <label class="btn btn-primary"  btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
+                    <label class="btn btn-primary"  btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-12 col-md-4">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <i class="glyphicon glyphicon-repeat gly-spin"></i> Panel heading without title
-            </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              <div class="row">
-                <div class="col-sm-12 col-md-12">
-                  <progressbar class="progress-striped" value="59">59%</progressbar>
-                  <div class="btn-toolbar" role="toolbar">
-                    <div class="btn-group">
-                      <label class="btn btn-primary"  btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
-                      <label class="btn btn-primary"  btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
-                      <label class="btn btn-primary"  btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
-                    </div>
+      </div>
+      <div class="col-sm-12 col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <i class="glyphicon glyphicon-repeat gly-spin"></i> Panel heading without title
+          </div>
+          <div class="panel-body">
+            Panel content
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <progressbar class="progress-striped" value="59">59%</progressbar>
+                <div class="btn-toolbar" role="toolbar">
+                  <div class="btn-group">
+                    <label class="btn btn-primary"  btnRadio="Pause"><i class="glyphicon glyphicon-pause"></i></label>
+                    <label class="btn btn-primary"  btnRadio="Play"><i class="glyphicon glyphicon-play"></i></label>
+                    <label class="btn btn-primary"  btnRadio="Stop"><i class="glyphicon glyphicon-eject"></i></label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-12 col-md-4">
-          <div class="panel panel-danger">
-            <div class="panel-heading">
-              <i class="glyphicon glyphicon-record text-danger animated infinite tada"></i> Panel heading without title
-            </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              <div class="row">
-                <div class="col-sm-12 col-md-12">
-                  <progressbar class="progress-striped" type="danger" value="59">59%</progressbar>
-                  <div class="btn-toolbar" role="toolbar">
-                    <div class="btn-group">
-                      <label class="btn btn-danger"  btnRadio="Stop"><i class="glyphicon glyphicon-stop"></i></label>
-                    </div>
+      </div>
+      <div class="col-sm-12 col-md-4">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <i class="glyphicon glyphicon-record text-danger animated infinite tada"></i> Panel heading without title
+          </div>
+          <div class="panel-body">
+            Panel content
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <progressbar class="progress-striped" type="danger" value="59">59%</progressbar>
+                <div class="btn-toolbar" role="toolbar">
+                  <div class="btn-group">
+                    <label class="btn btn-danger"  btnRadio="Stop"><i class="glyphicon glyphicon-stop"></i></label>
                   </div>
                 </div>
               </div>
@@ -157,8 +169,8 @@
         </div>
       </div>
     </div>
-    -->
   </div>
+  -->
 
   <!-- Modals -->
 
@@ -166,7 +178,6 @@
   <rec-record-job #recordjobmodal="recordjobmodal"
                   [recordEndpoints]="recordEndpoints$ | async"
                   (onOk)="publishRecordJobRequest($event)">
-
   </rec-record-job>
 
 

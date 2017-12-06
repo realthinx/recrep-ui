@@ -1,12 +1,12 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {RecrepRecordJob} from '../../models/recordjob';
 import {Observable, Subject} from 'rxjs';
-import * as _ from "lodash";
-import {RecrepEndpointMapping} from "../../models/endpointmapping";
-import {Store} from "@ngrx/store";
+import * as _ from 'lodash';
+import {RecrepEndpointMapping} from '../../models/endpointmapping';
+import {Store} from '@ngrx/store';
 import * as fromRoot from '../../reducers';
-import {RecrepReplayJob} from "../../models/replayjob";
-import {EventBusService} from "../../services/eventbus.service";
+import {RecrepReplayJob} from '../../models/replayjob';
+import {EventBusService} from '../../services/eventbus.service';
 
 @Component({
   selector: 'rec-record-job-list',

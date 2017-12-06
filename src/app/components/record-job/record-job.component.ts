@@ -5,7 +5,7 @@ import {
   Output,
   EventEmitter, Input
 } from '@angular/core';
-import { ModalDirective } from 'ng2-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap';
 import {
   FormGroup,
   FormBuilder,
@@ -58,25 +58,25 @@ export class RecordJobComponent implements OnInit {
   show = (): void => {
     this.initializeRecordJobForm();
     this.recordJobModal.show();
-  }
+  };
 
   hide = (): void  => {
     this.recordJobModal.hide();
-  }
+  };
 
   publish = (): void => {
     this.recordJobModal.hide();
     this.initializeRecordJobForm();
     this.onOk.emit(this.createRecordJob());
     this.store.dispatch(new PublishedRecordJobAction({}));
-  }
+  };
 
   getStages = (): Observable<string[]> => {
     return Observable.from(this.recordEndpoints)
       .map(recordEndpoint => recordEndpoint.stage)
       .distinctUntilChanged()
       .toArray();
-  }
+  };
 
   getHandlerLabel = (stage: string): Observable<string[]> => {
     return Observable.from(this.recordEndpoints)
@@ -84,7 +84,7 @@ export class RecordJobComponent implements OnInit {
       .map(recordEndpoint => recordEndpoint.handlerLabel)
       .distinctUntilChanged()
       .toArray();
-  }
+  };
 
   getSourceIdentifierLabel = (stage: string, handlerLabel: string): Observable<string[]> => {
     return Observable.from(this.recordEndpoints)
@@ -92,7 +92,7 @@ export class RecordJobComponent implements OnInit {
       .map(recordEndpoint => recordEndpoint.sourceIdentifierLabel)
       .distinctUntilChanged()
       .toArray();
-  }
+  };
 
   createRecordJob = (): RecrepRecordJob => {
     let recordJob = Object.assign(<RecrepRecordJob>{}, {
@@ -114,7 +114,7 @@ export class RecordJobComponent implements OnInit {
     }
 
     return recordJob;
-  }
+  };
 
   getEndpointMapping = (): Observable<RecrepEndpointMapping> => {
     return Observable.from(this.recordEndpoints)
@@ -132,17 +132,17 @@ export class RecordJobComponent implements OnInit {
           return recordEndpoint;
         }
       });
-  }
+  };
 
   addEndpointMapping = (): void => {
     this.getEndpointMapping().subscribe(endpointMapping => this.store.dispatch(new AddRecordJobEndpointMappingAction(endpointMapping)));
     this.recordJobForm.updateValueAndValidity();
-  }
+  };
 
   removeEndpointMapping = (endpointMapping: RecrepEndpointMapping): void => {
     this.store.dispatch(new RemoveRecordJobEndpointMappingAction(endpointMapping));
     this.recordJobForm.updateValueAndValidity();
-  }
+  };
 
   initializeRecordJobForm = (): void => {
     this.recordJobForm = this.formBuilder.group({

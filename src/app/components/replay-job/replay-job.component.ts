@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, Input, Output, EventEmitter} from '@angular/core';
-import {ModalDirective} from "ng2-bootstrap";
+import {ModalDirective} from "ngx-bootstrap";
 import {RecrepEndpointMapping} from "../../models/endpointmapping";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {State} from "../../reducers/replay-job";
@@ -48,25 +48,25 @@ export class ReplayJobComponent implements OnInit {
     this.recordJob = recordJob;
     this.initializeReplayJobForm();
     this.replayJobModal.show();
-  }
+  };
 
   hide = (): void  => {
     this.replayJobModal.hide();
-  }
+  };
 
   publish = (): void => {
     this.replayJobModal.hide();
     this.initializeReplayJobForm();
     this.onOk.emit(this.createReplayJob());
     this.store.dispatch(new PublishedReplayJobAction({}));
-  }
+  };
 
   getStages = (): Observable<string[]> => {
     return Observable.from(this.replayEndpoints)
       .map(replayEndpoint => replayEndpoint.stage)
       .distinctUntilChanged()
       .toArray();
-  }
+  };
 
   getHandlerLabel = (stage: string): Observable<string[]> => {
     return Observable.from(this.replayEndpoints)
@@ -74,7 +74,7 @@ export class ReplayJobComponent implements OnInit {
       .map(replayEndpoint => replayEndpoint.handlerLabel)
       .distinctUntilChanged()
       .toArray();
-  }
+  };
 
   getTargetIdentifierLabel = (stage: string, handlerLabel: string): Observable<string[]> => {
     return Observable.from(this.replayEndpoints)
@@ -82,19 +82,19 @@ export class ReplayJobComponent implements OnInit {
       .map(replayEndpoint => replayEndpoint.targetIdentifierLabel)
       .distinctUntilChanged()
       .toArray();
-  }
+  };
 
   getTargetEndpointMapping = (): Observable<RecrepEndpointMapping> => {
     return Observable.from(this.replayEndpoints)
       .first(replayEndpoint => replayEndpoint.stage === this.replayJobState.stage
       && replayEndpoint.handlerLabel === this.replayJobState.handlerLabel
       && replayEndpoint.targetIdentifierLabel === this.replayJobState.targetIdentifierLabel);
-  }
+  };
 
   getSourceEndpointMapping = (sourceIdentifier: string): Observable<RecrepEndpointMapping> => {
     return Observable.from(this.recordJob.sourceMappings)
       .first(sourceMapping => sourceMapping.sourceIdentifier === sourceIdentifier);
-  }
+  };
 
   addEndpointMapping = (): void => {
     this.getTargetEndpointMapping().subscribe(endpointMapping => {
@@ -104,12 +104,12 @@ export class ReplayJobComponent implements OnInit {
       this.store.dispatch(new AddReplayJobEndpointMappingAction(replayMapping))
     });
     this.replayJobForm.updateValueAndValidity();
-  }
+  };
 
   removeEndpointMapping = (endpointMapping: RecrepEndpointMapping): void => {
     this.store.dispatch(new RemoveReplayJobEndpointMappingAction(endpointMapping));
     this.replayJobForm.updateValueAndValidity();
-  }
+  };
 
   createReplayJob = (): RecrepReplayJob => {
     let replayJob = Object.assign(<RecrepReplayJob>{}, {
@@ -130,7 +130,7 @@ export class ReplayJobComponent implements OnInit {
     // }
 
     return replayJob;
-  }
+  };
 
   initializeReplayJobForm = (): void => {
     this.replayJobForm = this.formBuilder.group({
@@ -171,19 +171,19 @@ export class ReplayJobComponent implements OnInit {
       }
       return null;
     }
-  }
+  };
 
   totalMessageCount = (): number => {
     if(this.recordJob) {
       return this.recordJob.sourceMappings.reduce((a, b) => a + b.metrics.messageCount, 0);
     }
-  }
+  };
 
   totalMessageSizeMb = (): number => {
     if(this.recordJob) {
       return this.recordJob.sourceMappings.reduce((a, b) => a + b.metrics.messageSizeBytes, 0);
     }
-  }
+  };
 
   dateTime = (timestamp: number): string => {
     return moment(timestamp).format('DD. MMM YYYY, H:mm:ss');

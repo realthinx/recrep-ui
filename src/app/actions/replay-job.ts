@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import {RecrepEndpointMapping} from "../models/endpointmapping";
+import { RecrepEndpointMapping } from '../models/endpointmapping';
 
 export const ActionTypes = {
   REPLAY_JOB_VALUES_UPDATED:       '[ReplayJob] Form Values Update',

@@ -9,4 +9,4 @@ export interface RecrepRecordJob {
   timestampEnd: number;
   maxSizeMb: string;
   filePath: string;
-};
+}

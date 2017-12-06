@@ -1,19 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { StoreModule } from '@ngrx/store';
 
-import { AlertModule } from 'ng2-bootstrap';
-import { TooltipModule } from 'ng2-bootstrap';
-import { TabsModule } from 'ng2-bootstrap/tabs';
-import { ProgressbarModule } from 'ng2-bootstrap/progressbar';
-import { ButtonsModule } from 'ng2-bootstrap/buttons';
-import { ModalModule } from 'ng2-bootstrap/modal';
-import { TimepickerModule } from 'ng2-bootstrap/timepicker';
-import { DatepickerModule } from 'ng2-bootstrap/datepicker';
-import { PaginationModule } from 'ng2-bootstrap/pagination';
+import { AlertModule } from 'ngx-bootstrap';
+import { TooltipModule } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { DatepickerModule } from 'ngx-bootstrap/datepicker';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 import { AppComponent } from './containers/app';
 import { EventBusService } from './services/eventbus.service';
@@ -25,6 +25,7 @@ import { RecordJobListComponent } from './components/record-job-list/record-job-
 import { NetworkStatusComponent } from './components/network-status/network-status.component';
 import { RecordJobPanelComponent } from './components/record-job-panel/record-job-panel.component';
 import { ReplayJobPanelComponent } from './components/replay-job-panel/replay-job-panel.component';
+import { AnalysisComponent } from './components/analysis/analysis.component';
 
 @NgModule({
   declarations: [
@@ -34,10 +35,12 @@ import { ReplayJobPanelComponent } from './components/replay-job-panel/replay-jo
     RecordJobListComponent,
     NetworkStatusComponent,
     RecordJobPanelComponent,
-    ReplayJobPanelComponent
+    ReplayJobPanelComponent,
+    AnalysisComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpModule,
     AlertModule.forRoot(),
@@ -59,5 +62,4 @@ import { ReplayJobPanelComponent } from './components/replay-job-panel/replay-jo
   ]
 })
 export class AppModule {
-
 }

@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <form [formGroup]="jobAnalysisForm">
+    <div class="row">
+      <div class="col-xs-12 col-md-4">
+        <div class="form-group">
+          <label for="recordJob">select a job</label>
+          <select class="form-control" id="recordJob" formControlName="recordJob">
+            <option *ngFor="let recordJob of ( sortedRecordJobs$ | async )" value="{{recordJob.name}}">{{ recordJob.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-8">
+        <div class="form-group">
+          <label for="luceneQuery">enter a query</label>
+          <input type="text" class="form-control" id="luceneQuery" formControlName="luceneQuery" placeholder="use lucene syntax">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div >
+          <button class="btn btn-primary pull-right" (click)="publishJobAnalysisRequest()" [disabled]="!jobAnalysisForm.valid">search</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="(queryResult | async)" class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>source</th>
+          <th>payload</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doc of sortedDocuments">
+          <td>{{doc.source}}</td>
+          <td>{{doc.payload}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

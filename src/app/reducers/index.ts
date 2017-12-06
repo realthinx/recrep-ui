@@ -7,6 +7,7 @@ import * as fromNetwork from './network';
 import * as fromInventory from './inventory';
 import * as fromRecordJob from './record-job';
 import * as fromReplayJob from './replay-job';
+import * as fromAnalysis from './analysis';
 import { environment } from '../../environments/environment';
 import { RecrepRecordJob } from '../models/recordjob';
 import { RecrepReplayJob } from '../models/replayjob';
@@ -17,13 +18,15 @@ export interface State {
   inventory: fromInventory.State;
   recordjob: fromRecordJob.State;
   replayjob: fromReplayJob.State;
+  analysis: fromAnalysis.State;
 }
 
 const reducers = {
   network: fromNetwork.reducer,
   inventory: fromInventory.reducer,
   recordjob: fromRecordJob.reducer,
-  replayjob: fromReplayJob.reducer
+  replayjob: fromReplayJob.reducer,
+  analysis: fromAnalysis.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -35,7 +38,7 @@ export function reducer(state: any, action: any) {
   } else {
     return developmentReducer(state, action);
   }
-};
+}
 
 export const getNetworkState = (state: State) => state.network;
 export const getNetworkConnected = createSelector(getNetworkState, fromNetwork.getConnected);
@@ -54,5 +57,8 @@ export const getRecordjobEndpointMappings = createSelector(getRecordjobState, fr
 
 export const getReplayjobState = (state: State) => state.replayjob;
 export const getReplayjobEndpointMappings = createSelector(getReplayjobState, fromReplayJob.getEndpointMappings);
+
+export const getAnalysisState = (state: State) => state.analysis;
+export const getQueryResult = createSelector(getAnalysisState, fromAnalysis.getQueryResult);
 
 
