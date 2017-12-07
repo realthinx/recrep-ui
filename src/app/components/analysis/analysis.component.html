@@ -28,13 +28,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th>source</th>
+          <th *ngIf="sortedDocuments[0].source">source</th>
           <th>payload</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let doc of sortedDocuments">
-          <td>{{doc.source}}</td>
+          <td *ngIf="doc.source">{{doc.source}}</td>
+          <!--td *ngIf="doc.header">{{stringifyHeader(doc.header)}}</td-->
           <td>{{doc.payload}}</td>
         </tr>
       </tbody>

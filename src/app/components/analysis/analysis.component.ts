@@ -80,4 +80,7 @@ export class AnalysisComponent implements OnInit {
     });
   };
 
+  stringifyHeader = (header: JSON): string => {
+    return JSON.stringify(header);
+  };
 }
