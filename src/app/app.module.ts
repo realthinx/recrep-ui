@@ -14,6 +14,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AppComponent } from './containers/app';
 import { EventBusService } from './services/eventbus.service';
@@ -25,7 +26,7 @@ import { RecordJobListComponent } from './components/record-job-list/record-job-
 import { NetworkStatusComponent } from './components/network-status/network-status.component';
 import { RecordJobPanelComponent } from './components/record-job-panel/record-job-panel.component';
 import { ReplayJobPanelComponent } from './components/replay-job-panel/replay-job-panel.component';
-import { AnalysisComponent } from './components/analysis/analysis.component';
+import { RecordJobAnalysisComponent } from './components/record-job-analysis/record-job-analysis.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { AnalysisComponent } from './components/analysis/analysis.component';
     NetworkStatusComponent,
     RecordJobPanelComponent,
     ReplayJobPanelComponent,
-    AnalysisComponent
+    RecordJobAnalysisComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +53,7 @@ import { AnalysisComponent } from './components/analysis/analysis.component';
     TimepickerModule.forRoot(),
     DatepickerModule.forRoot(),
     PaginationModule.forRoot(),
+    PopoverModule.forRoot(),
     StoreModule.provideStore(reducer),
   ],
   providers: [

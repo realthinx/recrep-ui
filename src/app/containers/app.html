@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">messaging testtool</a>
+      <a class="navbar-brand" href="#">Messaging Tool</a>
     </div>
     <div class="navbar-header navbar-right">
       <rec-network-status class="navbar-text"></rec-network-status>
@@ -12,14 +12,14 @@
 <div class="container-fluid">
   <!-- Main Content -->
   <tabset>
-    <tab heading='record jobs'>
+    <tab heading='Record Jobs'>
       <div class="container-fluid tab-padding">
         <!-- Action Bar -->
         <div class="row">
           <div class="col-xs-12">
             <div class="btn-toolbar" role="toolbar">
               <div class="btn-group">
-                <label class="btn btn-danger" btnRadio="Record" (click)="recordjobmodal.show()"><i class="glyphicon glyphicon-record"></i></label>
+                <div class="btn btn-danger" btnRadio="Record" (click)="recordjobmodal.show()"><i class="btn-glyph glyphicon glyphicon-record"></i></div>
               </div>
             </div>
           </div>
@@ -33,39 +33,37 @@
           <rec-record-job-list [recordJobs]="recordJobs$"></rec-record-job-list>
 
           <!-- Active and scheduled Record and Replay Jobs -->
-          <div class="col-sm-12 col-md-8">
 
-            <!-- active record jobs -->
-            <rec-record-job-panel *ngFor="let activeRecordJob of ( activeRecordJobs$ | async )"
-                                  [recordJob]="activeRecordJob"
-                                  [status]="'active'"
-                                  (onCancel)="publishRecordJobCancelRequest($event)">
-            </rec-record-job-panel>
+          <!-- active record jobs -->
+          <rec-record-job-panel *ngFor="let activeRecordJob of ( activeRecordJobs$ | async )"
+                                [recordJob]="activeRecordJob"
+                                [status]="'active'"
+                                (onCancel)="publishRecordJobCancelRequest($event)">
+          </rec-record-job-panel>
 
-            <!-- scheduled record jobs -->
-            <rec-record-job-panel *ngFor="let scheduledRecordJob of ( scheduledRecordJobs$ | async )"
-                                  [recordJob]="scheduledRecordJob"
-                                  [status]="'scheduled'"
-                                  (onCancel)="publishRecordJobCancelRequest($event)">
-            </rec-record-job-panel>
+          <!-- scheduled record jobs -->
+          <rec-record-job-panel *ngFor="let scheduledRecordJob of ( scheduledRecordJobs$ | async )"
+                                [recordJob]="scheduledRecordJob"
+                                [status]="'scheduled'"
+                                (onCancel)="publishRecordJobCancelRequest($event)">
+          </rec-record-job-panel>
 
-            <!-- active replay jobs -->
-            <rec-replay-job-panel *ngFor="let activeReplayJob of ( activeReplayJobs$ | async )"
-                                  [replayJob]="activeReplayJob"
-                                  [status]="'active'"
-                                  (onCancel)="publishReplayJobCancelRequest($event)">
-            </rec-replay-job-panel>
-          </div>
+          <!-- active replay jobs -->
+          <rec-replay-job-panel *ngFor="let activeReplayJob of ( activeReplayJobs$ | async )"
+                                [replayJob]="activeReplayJob"
+                                [status]="'active'"
+                                (onCancel)="publishReplayJobCancelRequest($event)">
+          </rec-replay-job-panel>
         </div>
       </div>
     </tab>
-    <tab heading='analysis'>
+    <tab heading='Analysis'>
       <div class="container-fluid tab-padding">
         <div class="row">
-          <analysis [recordJobs]="recordJobs$"
+          <rec-job-analysis [recordJobs]="recordJobs$"
                     [queryResult]="queryResult$"
                     (onSearch)="publishRecordJobAnalysisRequest($event)">
-          </analysis>
+          </rec-job-analysis>
         </div>
       </div>
     </tab>

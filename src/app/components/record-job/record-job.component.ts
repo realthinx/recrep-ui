@@ -14,15 +14,17 @@ import {
 
 import { RecrepRecordJob } from '../../models/recordjob';
 import * as moment from 'moment/moment';
-import {RecrepEndpointMapping} from "../../models/endpointmapping";
-import {Observable} from "rxjs";
+import {RecrepEndpointMapping} from '../../models/endpointmapping';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/first';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../../reducers';
-import {State} from "../../reducers/record-job";
+import {State} from '../../reducers/record-job';
 import {
   RecordJobValueUpdateAction, AddRecordJobEndpointMappingAction,
   RemoveRecordJobEndpointMappingAction, PublishedRecordJobAction
-} from "../../actions/record-job";
+} from '../../actions/record-job';
 
 @Component({
   selector: 'rec-record-job',
@@ -58,25 +60,25 @@ export class RecordJobComponent implements OnInit {
   show = (): void => {
     this.initializeRecordJobForm();
     this.recordJobModal.show();
-  };
+  }
 
   hide = (): void  => {
     this.recordJobModal.hide();
-  };
+  }
 
   publish = (): void => {
     this.recordJobModal.hide();
     this.initializeRecordJobForm();
     this.onOk.emit(this.createRecordJob());
     this.store.dispatch(new PublishedRecordJobAction({}));
-  };
+  }
 
   getStages = (): Observable<string[]> => {
     return Observable.from(this.recordEndpoints)
       .map(recordEndpoint => recordEndpoint.stage)
       .distinctUntilChanged()
       .toArray();
-  };
+  }
 
   getHandlerLabel = (stage: string): Observable<string[]> => {
     return Observable.from(this.recordEndpoints)
@@ -84,7 +86,7 @@ export class RecordJobComponent implements OnInit {
       .map(recordEndpoint => recordEndpoint.handlerLabel)
       .distinctUntilChanged()
       .toArray();
-  };
+  }
 
   getSourceIdentifierLabel = (stage: string, handlerLabel: string): Observable<string[]> => {
     return Observable.from(this.recordEndpoints)
@@ -92,10 +94,10 @@ export class RecordJobComponent implements OnInit {
       .map(recordEndpoint => recordEndpoint.sourceIdentifierLabel)
       .distinctUntilChanged()
       .toArray();
-  };
+  }
 
   createRecordJob = (): RecrepRecordJob => {
-    let recordJob = Object.assign(<RecrepRecordJob>{}, {
+    const recordJob = Object.assign(<RecrepRecordJob>{}, {
       name: this.recordJobState.name,
       description: this.recordJobState.description,
       maxSizeMb: this.recordJobState.maxFileSize,
@@ -104,7 +106,7 @@ export class RecordJobComponent implements OnInit {
     });
 
     if (this.recordJobState.scheduled) {
-      recordJob.timestampStart = moment(this.recordJobState.startDate + ' ' + this.recordJobState.startTime, "DD.MM.YYYY HH:mm").valueOf();
+      recordJob.timestampStart = moment(this.recordJobState.startDate + ' ' + this.recordJobState.startTime, 'DD.MM.YYYY HH:mm').valueOf();
     } else {
       recordJob.timestampStart = moment().add(1, 'seconds').valueOf();
     }
@@ -114,7 +116,7 @@ export class RecordJobComponent implements OnInit {
     }
 
     return recordJob;
-  };
+  }
 
   getEndpointMapping = (): Observable<RecrepEndpointMapping> => {
     return Observable.from(this.recordEndpoints)
@@ -132,17 +134,17 @@ export class RecordJobComponent implements OnInit {
           return recordEndpoint;
         }
       });
-  };
+  }
 
   addEndpointMapping = (): void => {
     this.getEndpointMapping().subscribe(endpointMapping => this.store.dispatch(new AddRecordJobEndpointMappingAction(endpointMapping)));
     this.recordJobForm.updateValueAndValidity();
-  };
+  }
 
   removeEndpointMapping = (endpointMapping: RecrepEndpointMapping): void => {
     this.store.dispatch(new RemoveRecordJobEndpointMappingAction(endpointMapping));
     this.recordJobForm.updateValueAndValidity();
-  };
+  }
 
   initializeRecordJobForm = (): void => {
     this.recordJobForm = this.formBuilder.group({
@@ -162,31 +164,29 @@ export class RecordJobComponent implements OnInit {
 
 
     this.recordJobForm.valueChanges.subscribe(formValues => {
-      this.store.dispatch(new RecordJobValueUpdateAction(formValues))
+      this.store.dispatch(new RecordJobValueUpdateAction(formValues));
     });
-
-  };
+  }
 
   validateRecordJob = (): any => {
     return (group: FormGroup): {[key: string]: any} => {
-      let scheduled = group.controls['scheduled'];
-      let dateStart = group.controls['dateStart'];
-      let timeStart = group.controls['timeStart'];
-      let maxFileSize = group.controls['maxFileSize'];
+      const scheduled = group.controls['scheduled'];
+      const dateStart = group.controls['dateStart'];
+      const timeStart = group.controls['timeStart'];
+      const maxFileSize = group.controls['maxFileSize'];
 
-      let missingStartDate = scheduled.value && !(dateStart.value && timeStart.value);
-      let startDateInPast = scheduled.value && moment(dateStart.value + ' ' + timeStart.value, "DD.MM.YYYY HH:mm").isBefore(moment());
-      let noEndpointMapping = this.recordJobState.endpointMappings.length === 0;
+      const missingStartDate = scheduled.value && !(dateStart.value && timeStart.value);
+      const startDateInPast = scheduled.value && moment(dateStart.value + ' ' + timeStart.value, 'DD.MM.YYYY HH:mm').isBefore(moment());
+      const noEndpointMapping = this.recordJobState.endpointMappings.length === 0;
 
-      if( missingStartDate || startDateInPast || noEndpointMapping) {
+      if ( missingStartDate || startDateInPast || noEndpointMapping) {
         return {
           missingStartDate: missingStartDate,
           startDateInPast: startDateInPast,
           noEndpointMapping: noEndpointMapping
-        }
+        };
       }
       return null;
-    }
+    };
   }
-
 }

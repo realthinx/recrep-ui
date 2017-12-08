@@ -1,6 +1,7 @@
 export interface Analysis {
   recordJob: string;
   luceneQuery: string;
+  maxHits: number;
 }
 
 export interface QueryResult {
@@ -11,5 +12,5 @@ export interface QueryResult {
 export interface Doc {
   id: number;
   payload: String;
-  source: String,
+  source: String;
 }

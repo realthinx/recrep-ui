@@ -1,6 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {RecrepRecordJob} from '../../models/recordjob';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/take';
+import {Subject} from 'rxjs/Subject';
 import * as _ from 'lodash';
 import {RecrepEndpointMapping} from '../../models/endpointmapping';
 import {Store} from '@ngrx/store';
@@ -21,12 +23,11 @@ export class RecordJobListComponent implements OnInit {
 
   replayEndpoints$: Observable<RecrepEndpointMapping[]>;
 
-
   pagedRecordJobs$: Subject<RecrepRecordJob[]>;
-  itemsPerPage: number = 10;
-  currentPage: number = 1;
-  startIndex:number = 0;
-  endIndex:number = this.startIndex + this.itemsPerPage;
+  itemsPerPage = 10;
+  currentPage = 1;
+  startIndex = 0;
+  endIndex = this.startIndex + this.itemsPerPage;
 
   constructor(private eventBusService: EventBusService,
               private store: Store<fromRoot.State>) {
@@ -50,17 +51,17 @@ export class RecordJobListComponent implements OnInit {
       .subscribe( recordJobs => {
         this.page(recordJobs);
       });
-  };
+  }
 
   page = (recordJobs: RecrepRecordJob[]): void => {
-    if ( recordJobs.length > 0) {
+    if (recordJobs.length > 0) {
       this.pagedRecordJobs$.next(_.sortBy(recordJobs, 'name').slice(this.startIndex , this.endIndex));
     }
-  };
+  }
 
   publishReplayJobRequest = (replayJob: RecrepReplayJob) => {
     console.log('publish replayJob request ' + JSON.stringify(replayJob));
     this.eventBusService.publishReplayJobRequest(replayJob);
-  };
+  }
 
 }

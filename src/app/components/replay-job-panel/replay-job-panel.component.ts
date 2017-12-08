@@ -1,7 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import {RecrepReplayJob} from "../../models/replayjob";
-import {EventBusService} from "../../services/eventbus.service";
-import * as moment from 'moment/moment'
+import {RecrepReplayJob} from '../../models/replayjob';
+import {EventBusService} from '../../services/eventbus.service';
+import * as moment from 'moment/moment';
 
 @Component({
   selector: 'rec-replay-job-panel',
@@ -14,7 +14,7 @@ export class ReplayJobPanelComponent implements OnInit {
   @Input() replayJob: RecrepReplayJob;
   @Input() status: string;
 
-  progress: number = 0;
+  progress = 0;
   timeUntilEnd: any;
   timestampEndWithSpeedFactor: any;
   endpointMetrics: any = {};
@@ -26,19 +26,21 @@ export class ReplayJobPanelComponent implements OnInit {
       this.endpointMetrics[endpointMapping.targetIdentifier] = 0;
     });
 
-    this.timestampEndWithSpeedFactor = this.replayJob.timestampStart + ((this.replayJob.timestampEnd - this.replayJob.timestampStart) / this.replayJob.speedFactor);
+    this.timestampEndWithSpeedFactor = this.replayJob.timestampStart +
+      ((this.replayJob.timestampEnd - this.replayJob.timestampStart) / this.replayJob.speedFactor);
 
     this.eventBusService.subscribeToMetrics(this.replayJob.name, this.handleMetric);
 
     setInterval(() => {
       this.timeUntilEnd = moment().to(this.timestampEndWithSpeedFactor);
       if (this.progress === 0) {
-        let intervalId = setInterval(() => {
-          this.progress = ((moment().valueOf() - this.replayJob.timestampStart) * 100) / ((this.timestampEndWithSpeedFactor - this.replayJob.timestampStart));
-          if(this.progress >= 100) {
+        const intervalId = setInterval(() => {
+          this.progress = ((moment().valueOf() - this.replayJob.timestampStart) * 100) /
+            ((this.timestampEndWithSpeedFactor - this.replayJob.timestampStart));
+          if (this.progress >= 100) {
             clearInterval(intervalId);
           }
-        },40);
+        }, 40);
       }
     }, 1000);
   }

@@ -1,4 +1,4 @@
-<div class="col-md-4">
+<div class="col-sm-12 col-md-6">
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let recordJob of ( pagedRecordJobs$ | async )">{{ recordJob.name }}
       <a href="javascript:void(0);" (click)="replayjobmodal.show(recordJob)"><i class="glyphicon glyphicon-repeat pull-right"></i></a>

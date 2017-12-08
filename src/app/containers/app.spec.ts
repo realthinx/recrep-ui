@@ -4,20 +4,20 @@ import { AppComponent } from './app';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from '../reducers';
 import { EventBusService } from '../services/eventbus.service';
-import {RecordJobComponent} from "../components/record-job/record-job.component";
-import {ReplayJobComponent} from "../components/replay-job/replay-job.component";
-import {RecordJobListComponent} from "../components/record-job-list/record-job-list.component";
-import {NetworkStatusComponent} from "../components/network-status/network-status.component";
-import {RecordJobPanelComponent} from "../components/record-job-panel/record-job-panel.component";
-import {ReplayJobPanelComponent} from "../components/replay-job-panel/replay-job-panel.component";
-import {BrowserModule} from "@angular/platform-browser";
-import {ReactiveFormsModule} from "@angular/forms";
-import {HttpModule} from "@angular/http";
+import {RecordJobComponent} from '../components/record-job/record-job.component';
+import {ReplayJobComponent} from '../components/replay-job/replay-job.component';
+import {RecordJobListComponent} from '../components/record-job-list/record-job-list.component';
+import {NetworkStatusComponent} from '../components/network-status/network-status.component';
+import {RecordJobPanelComponent} from '../components/record-job-panel/record-job-panel.component';
+import {ReplayJobPanelComponent} from '../components/replay-job-panel/replay-job-panel.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
 import {
   ButtonsModule, DatepickerModule, ModalModule, PaginationModule, ProgressbarModule, TabsModule,
   TimepickerModule,
   TooltipModule
-} from "ng2-bootstrap";
+} from 'ngx-bootstrap';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
