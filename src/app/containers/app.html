@@ -61,8 +61,9 @@
       <div class="container-fluid tab-padding">
         <div class="row">
           <rec-job-analysis [recordJobs]="recordJobs$"
-                    [queryResult]="queryResult$"
-                    (onSearch)="publishRecordJobAnalysisRequest($event)">
+                            [activeRecordJobs]="activeRecordJobs$"
+                            [queryResult]="queryResult$"
+                            (onSearch)="publishRecordJobAnalysisRequest($event)">
           </rec-job-analysis>
         </div>
       </div>

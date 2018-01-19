@@ -18,6 +18,7 @@ import {ModalDirective} from 'ngx-bootstrap';
 export class RecordJobAnalysisComponent implements OnInit {
 
   @Input() recordJobs: Observable<RecrepRecordJob[]>;
+  @Input() activeRecordJobs: Observable<RecrepRecordJob[]>;
   @Input() queryResult: Observable<QueryResult>;
 
   @Output() onSearch = new EventEmitter();
@@ -27,6 +28,7 @@ export class RecordJobAnalysisComponent implements OnInit {
   sortedRecordJobs$: Subject<RecrepRecordJob[]>;
   sortedDocuments$: Subject<Doc[]>;
 
+  unionRecordJobs: RecrepRecordJob[];
   sortedDocuments: Doc[];
 
   jobAnalysisForm: FormGroup;
@@ -43,7 +45,14 @@ export class RecordJobAnalysisComponent implements OnInit {
 
     this.recordJobs
       .subscribe( recordJobs => {
-        this.sortRecordJobs(recordJobs);
+        this.unionRecordJobs = _.unionBy(this.unionRecordJobs, recordJobs, 'name');
+        this.sortRecordJobs();
+      });
+
+    this.activeRecordJobs
+      .subscribe( recordJobs => {
+        this.unionRecordJobs = _.unionBy(this.unionRecordJobs, recordJobs, 'name');
+        this.sortRecordJobs();
       });
 
     this.queryResult
@@ -66,9 +75,9 @@ export class RecordJobAnalysisComponent implements OnInit {
     this.headerModal.hide();
   }
 
-  sortRecordJobs = (recordJobs: RecrepRecordJob[]): void => {
-    if ( recordJobs.length > 0) {
-      this.sortedRecordJobs$.next(_.sortBy(recordJobs, 'name'));
+  sortRecordJobs = (): void => {
+    if (this.unionRecordJobs.length > 0) {
+      this.sortedRecordJobs$.next(_.sortBy(this.unionRecordJobs, [function(job) { return _.toLower(job.name); }]));
     }
   }
 
