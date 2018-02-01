@@ -101,3 +101,7 @@ body {
 .btn-glyph {
   padding-top: 3px;
 }
+
+.icon-padding {
+  padding-left: 10px;
+}

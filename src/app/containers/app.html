@@ -29,31 +29,34 @@
         </div>
 
         <div class="row">
-          <!-- Record Job Inventory -->
-          <rec-record-job-list [recordJobs]="recordJobs$"></rec-record-job-list>
+          <div class="col-sm-6">
+            <!-- Record Job Inventory -->
+            <rec-record-job-list [recordJobs]="recordJobs$"></rec-record-job-list>
+          </div>
+          <div class="col-sm-6">
+            <!-- Active and scheduled Record and Replay Jobs -->
 
-          <!-- Active and scheduled Record and Replay Jobs -->
+            <!-- active record jobs -->
+            <rec-record-job-panel *ngFor="let activeRecordJob of ( activeRecordJobs$ | async )"
+                                  [recordJob]="activeRecordJob"
+                                  [status]="'active'"
+                                  (onCancel)="publishRecordJobCancelRequest($event)">
+            </rec-record-job-panel>
 
-          <!-- active record jobs -->
-          <rec-record-job-panel *ngFor="let activeRecordJob of ( activeRecordJobs$ | async )"
-                                [recordJob]="activeRecordJob"
-                                [status]="'active'"
-                                (onCancel)="publishRecordJobCancelRequest($event)">
-          </rec-record-job-panel>
+            <!-- scheduled record jobs -->
+            <rec-record-job-panel *ngFor="let scheduledRecordJob of ( scheduledRecordJobs$ | async )"
+                                  [recordJob]="scheduledRecordJob"
+                                  [status]="'scheduled'"
+                                  (onCancel)="publishRecordJobCancelRequest($event)">
+            </rec-record-job-panel>
 
-          <!-- scheduled record jobs -->
-          <rec-record-job-panel *ngFor="let scheduledRecordJob of ( scheduledRecordJobs$ | async )"
-                                [recordJob]="scheduledRecordJob"
-                                [status]="'scheduled'"
-                                (onCancel)="publishRecordJobCancelRequest($event)">
-          </rec-record-job-panel>
-
-          <!-- active replay jobs -->
-          <rec-replay-job-panel *ngFor="let activeReplayJob of ( activeReplayJobs$ | async )"
-                                [replayJob]="activeReplayJob"
-                                [status]="'active'"
-                                (onCancel)="publishReplayJobCancelRequest($event)">
-          </rec-replay-job-panel>
+            <!-- active replay jobs -->
+            <rec-replay-job-panel *ngFor="let activeReplayJob of ( activeReplayJobs$ | async )"
+                                  [replayJob]="activeReplayJob"
+                                  [status]="'active'"
+                                  (onCancel)="publishReplayJobCancelRequest($event)">
+            </rec-replay-job-panel>
+          </div>
         </div>
       </div>
     </tab>

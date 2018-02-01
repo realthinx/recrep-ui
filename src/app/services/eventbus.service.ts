@@ -94,6 +94,13 @@ export class EventBusService {
     }
   }
 
+  publishRecordJobDeleteRequest = (recordJob: RecrepRecordJob): void => {
+    if (this.eventbus) {
+      this.eventbus.publish(RecrepEventbusAddress.RECREP_EVENTS,
+        createRecrepEvent(RecrepEventType.RECORDJOB_DELETE_REQUEST, recordJob));
+    }
+  }
+
   publishRecordJobCancelRequest = (recordJob: RecrepRecordJob): void => {
     if (this.eventbus) {
       this.eventbus.publish(RecrepEventbusAddress.RECREP_EVENTS,
