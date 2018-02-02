@@ -28,7 +28,8 @@ export class RecordJobAnalysisComponent implements OnInit {
   sortedRecordJobs$: Subject<RecrepRecordJob[]>;
   sortedDocuments$: Subject<Doc[]>;
 
-  unionRecordJobs: RecrepRecordJob[];
+  jobs: RecrepRecordJob[] = [];
+  activeJobs: RecrepRecordJob[] = [];
   sortedDocuments: Doc[];
 
   jobAnalysisForm: FormGroup;
@@ -45,14 +46,14 @@ export class RecordJobAnalysisComponent implements OnInit {
 
     this.recordJobs
       .subscribe( recordJobs => {
-        this.unionRecordJobs = _.unionBy(this.unionRecordJobs, recordJobs, 'name');
-        this.sortRecordJobs();
+        this.jobs = recordJobs;
+        this.sortRecordJobs(_.concat(this.jobs, this.activeJobs));
       });
 
     this.activeRecordJobs
       .subscribe( recordJobs => {
-        this.unionRecordJobs = _.unionBy(this.unionRecordJobs, recordJobs, 'name');
-        this.sortRecordJobs();
+        this.activeJobs = recordJobs;
+        this.sortRecordJobs(_.concat(this.jobs, this.activeJobs));
       });
 
     this.queryResult
@@ -75,10 +76,8 @@ export class RecordJobAnalysisComponent implements OnInit {
     this.headerModal.hide();
   }
 
-  sortRecordJobs = (): void => {
-    if (this.unionRecordJobs.length > 0) {
-      this.sortedRecordJobs$.next(_.sortBy(this.unionRecordJobs, [function(job) { return _.toLower(job.name); }]));
-    }
+  sortRecordJobs = (recordJobs: RecrepRecordJob[]): void => {
+    this.sortedRecordJobs$.next(_.sortBy(recordJobs, [function(job) { return _.toLower(job.name); }]));
   }
 
   initializeJobAnalysisForm = (): void => {
