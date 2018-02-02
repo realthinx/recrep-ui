@@ -30,7 +30,7 @@ export class RecordJobAnalysisComponent implements OnInit {
 
   jobs: RecrepRecordJob[] = [];
   activeJobs: RecrepRecordJob[] = [];
-  sortedDocuments: Doc[];
+  sortedDocuments: Doc[] = [];
 
   jobAnalysisForm: FormGroup;
 
