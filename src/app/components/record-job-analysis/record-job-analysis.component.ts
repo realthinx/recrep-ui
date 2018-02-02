@@ -36,10 +36,13 @@ export class RecordJobAnalysisComponent implements OnInit {
 
   jsonHeader: string;
 
+  uuid: string;
+
   constructor(private formBuilder: FormBuilder,
               private store: Store<fromRoot.State>) {
     this.sortedRecordJobs$ = new Subject<RecrepRecordJob[]>();
     this.sortedDocuments$ = new Subject<Doc[]>();
+    this.uuid = this.createUUID();
   }
 
   ngOnInit() {
@@ -58,7 +61,7 @@ export class RecordJobAnalysisComponent implements OnInit {
 
     this.queryResult
       .subscribe( result => {
-        if (result) {
+        if (result && result.uuid === this.uuid) {
           this.sortedDocuments = _.sortBy(result.documents, 'source');
         }
       });
@@ -84,7 +87,8 @@ export class RecordJobAnalysisComponent implements OnInit {
     this.jobAnalysisForm = this.formBuilder.group({
       recordJob: ['', Validators.required],
       luceneQuery: ['', Validators.required],
-      maxHits: '10'
+      maxHits: '10',
+      uuid: this.uuid
     });
 
     this.jobAnalysisForm.valueChanges.subscribe(formValues => {
@@ -96,5 +100,16 @@ export class RecordJobAnalysisComponent implements OnInit {
     this.store.select('analysis').take(1).subscribe(analysis => {
       this.onSearch.emit(analysis['analysis']);
     });
+  }
+
+  createUUID = (): string => {
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = (dt + Math.random()*16)%16 | 0;
+      dt = Math.floor(dt/16);
+      return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+
+    return uuid;
   }
 }

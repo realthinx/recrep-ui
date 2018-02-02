@@ -10,7 +10,8 @@ export const initialState: State = {
   analysis: {
     recordJob: '',
     luceneQuery: '',
-    maxHits: 10
+    maxHits: 10,
+    uuid: ''
   },
   queryResult: null
 };
